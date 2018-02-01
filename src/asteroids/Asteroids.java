@@ -23,8 +23,12 @@ import javafx.stage.Stage;
  */
 public class Asteroids extends Application {
     
-    int velocidadNaveY = 3;
-    int velocidadNaveX = 3;
+    int velocidadNaveTurboX=0;
+    int velocidadNaveTurboY=0;
+    int posicionBalaY = 50;
+    int posicionBalaX = 50;
+    int velocidadNaveY = 0;
+    int velocidadNaveX = 0;
     int direcionNaveY = 0;
     int direcionNaveX = 0;
     int posicionNaveY =500;
@@ -52,6 +56,21 @@ public class Asteroids extends Application {
             15.0, 20.0 
         });
         poligono.setFill(Color.BLUE);
+        Polygon bala = new Polygon();
+        bala.getPoints().addAll(new Double[]{
+            0.0, -5.0,
+            -5.0, 10.0,
+            -2.0, 10.0,
+            -2.0, 15.0,
+            2.0, 15.0,
+            2.0, 10.0,
+            5.0, 10.0,
+            0.0, -5.0
+        });
+        bala.setFill(Color.ORANGE);
+        bala.setLayoutX(posicionBalaX);
+        bala.setLayoutY(posicionBalaY);
+        
         nave.setLayoutX(posicionNaveX);
         nave.setLayoutY(posicionNaveY);
         Rectangle rect1 = new Rectangle(7, 5);
@@ -64,28 +83,35 @@ public class Asteroids extends Application {
         rect2.setFill(Color.BLUE);
         nave.getChildren().addAll(poligono, rect1,rect2);
         root.getChildren().add(nave);
+        root.getChildren().add(bala);
+        
+        
         AnimationTimer animacionAsteroide = new AnimationTimer(){
             @Override
             public void handle(long now) {
                 
+                posicionNaveX+=(direcionNaveX * (velocidadNaveX + velocidadNaveTurboX));
+                nave.setLayoutX(posicionNaveX);
+                posicionNaveY+=(direcionNaveY * (velocidadNaveY + velocidadNaveTurboY));
+                nave.setLayoutY(posicionNaveY);
                 
-                if(posicionNaveY<0){
+                if(posicionNaveY<=0){
                     //Ponemos la barra en la posicion 0 para que no se nos valla
                     posicionNaveY = anchoPantalla;
                 }else{
                     //Para no sobrepasar el vorde inferior
-                    if(posicionNaveY>anchoPantalla){
+                    if(posicionNaveY>=anchoPantalla){
                         posicionNaveY = 0;
                     }
                 }
                 nave.setLayoutY(posicionNaveY);
                 
-                if(posicionNaveX<0-anchoNave){
+                if(posicionNaveX<=0){
                     //Ponemos la barra en la posicion 0 para que no se nos valla
-                    posicionNaveX = 800;
+                    posicionNaveX = largoPantalla;
                 }else{
                     //Para no sobrepasar el vorde inferior
-                    if(posicionNaveX>anchoPantalla-anchoNave*3){
+                    if(posicionNaveX>=largoPantalla){
                         posicionNaveX = 0;
                     }
                 }
@@ -94,6 +120,7 @@ public class Asteroids extends Application {
             
         };
         animacionAsteroide.start();
+        
         scene.setOnKeyPressed((KeyEvent event)-> {
             switch(event.getCode()){
                 case UP:
@@ -102,26 +129,26 @@ public class Asteroids extends Application {
                     if(giroNave==0){
                         direcionNaveX=0;
                         direcionNaveY=-1;
-                        posicionNaveY+=(direcionNaveY * velocidadNaveY);
-                        nave.setLayoutY(posicionNaveY);
+                        velocidadNaveY=3;
+                        velocidadNaveX=0;
                     }
                     if(giroNave==90){
                         direcionNaveY=0;
                         direcionNaveX=1;
-                        posicionNaveX+=(direcionNaveX * velocidadNaveX);
-                        nave.setLayoutX(posicionNaveX);
+                        velocidadNaveX=3;
+                        velocidadNaveY=0;
                     }
                     if(giroNave==180){
                         direcionNaveX=0;
                         direcionNaveY=1;
-                        posicionNaveY+=(direcionNaveY * velocidadNaveY);
-                        nave.setLayoutY(posicionNaveY);
+                        velocidadNaveY=3;
+                        velocidadNaveX=0;
                     }
                     if(giroNave==270){
                         direcionNaveY=0;
                         direcionNaveX =-1;
-                        posicionNaveX+=(direcionNaveX * velocidadNaveX);
-                        nave.setLayoutX(posicionNaveX);
+                        velocidadNaveX=3;
+                        velocidadNaveY=0;
                     }
                     
                     
@@ -131,8 +158,7 @@ public class Asteroids extends Application {
                     giroNave = giroNave-90;
                     if(giroNave==-90){
                         giroNave=270;
-                        posicionNaveX--;
-                        nave.setLayoutY(posicionNaveX);
+                        nave.setLayoutY(posicionNaveY);
                     }
                     break;
                 case RIGHT:
@@ -142,12 +168,21 @@ public class Asteroids extends Application {
                         giroNave=0;
                         nave.setLayoutY(posicionNaveY);
                     }
-                    break;    
+                    break;
+                case SPACE: 
+                    velocidadNaveTurboX=5;
+                    velocidadNaveTurboY=5;
+                    break;
             }
         nave.setRotate(giroNave);
         });
         scene.setOnKeyReleased((KeyEvent event) -> {
-            
+            switch(event.getCode()){
+            case SPACE:
+                velocidadNaveTurboX=0;
+                velocidadNaveTurboY=0;
+                break;
+            }
         });
          
     }
