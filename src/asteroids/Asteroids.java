@@ -15,6 +15,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.transform.Rotate;
 import javafx.stage.Stage;
 
 /**
@@ -27,19 +28,23 @@ public class Asteroids extends Application {
     int velocidadNaveTurboY=0;
     int posicionBalaY = 50;
     int posicionBalaX = 50;
-    int velocidadNaveY = 0;
-    int velocidadNaveX = 0;
-    int direcionNaveY = 0;
-    int direcionNaveX = 0;
+    double velocidadNaveY = 0;
+    double velocidadNaveX = 0;
+    int velocidadBalaX = 0;
+    int velocidadBalaY = 0;
+    double direcionNaveY = 0;
+    double direcionNaveX = 0;
+    double velocidadAbsoluta=3;
     int posicionNaveY =500;
     int posicionNaveX =400;
-    int giroNave;
+    double giroNave;
     int centroNave;
     int anchoNave = 15;
     int velocidadGiro = 0;
     final int anchoPantalla = 600;
     final int largoPantalla = 800;
     Group nave;
+    Polygon bala;
     
     @Override
     public void start(Stage primaryStage) {
@@ -56,23 +61,13 @@ public class Asteroids extends Application {
             15.0, 20.0 
         });
         poligono.setFill(Color.BLUE);
-        Polygon bala = new Polygon();
-        bala.getPoints().addAll(new Double[]{
-            0.0, -5.0,
-            -5.0, 10.0,
-            -2.0, 10.0,
-            -2.0, 15.0,
-            2.0, 15.0,
-            2.0, 10.0,
-            5.0, 10.0,
-            0.0, -5.0
-        });
-        bala.setFill(Color.ORANGE);
-        bala.setLayoutX(posicionBalaX);
-        bala.setLayoutY(posicionBalaY);
+        
+        posicionBalaX=posicionNaveX;
+        posicionBalaY=posicionNaveY;
         
         nave.setLayoutX(posicionNaveX);
         nave.setLayoutY(posicionNaveY);
+        nave.getTransforms().add(new Rotate (90,00,0));
         Rectangle rect1 = new Rectangle(7, 5);
         Rectangle rect2 = new Rectangle(7, 5);
         rect1.setLayoutX(-13);
@@ -83,7 +78,8 @@ public class Asteroids extends Application {
         rect2.setFill(Color.BLUE);
         nave.getChildren().addAll(poligono, rect1,rect2);
         root.getChildren().add(nave);
-        root.getChildren().add(bala);
+        
+        
         
         
         AnimationTimer animacionAsteroide = new AnimationTimer(){
@@ -94,6 +90,10 @@ public class Asteroids extends Application {
                 nave.setLayoutX(posicionNaveX);
                 posicionNaveY+=(direcionNaveY * (velocidadNaveY + velocidadNaveTurboY));
                 nave.setLayoutY(posicionNaveY);
+                
+                posicionBalaX=posicionBalaX+velocidadBalaX;
+                posicionBalaY=posicionBalaY+velocidadBalaY;
+                
                 
                 if(posicionNaveY<=0){
                     //Ponemos la barra en la posicion 0 para que no se nos valla
@@ -125,37 +125,16 @@ public class Asteroids extends Application {
             switch(event.getCode()){
                 case UP:
                     
-                    //Cuando pulsamos tecla arriba.
-                    if(giroNave==0){
-                        direcionNaveX=0;
-                        direcionNaveY=-1;
-                        velocidadNaveY=3;
-                        velocidadNaveX=0;
-                    }
-                    if(giroNave==90){
-                        direcionNaveY=0;
-                        direcionNaveX=1;
-                        velocidadNaveX=3;
-                        velocidadNaveY=0;
-                    }
-                    if(giroNave==180){
-                        direcionNaveX=0;
-                        direcionNaveY=1;
-                        velocidadNaveY=3;
-                        velocidadNaveX=0;
-                    }
-                    if(giroNave==270){
-                        direcionNaveY=0;
-                        direcionNaveX =-1;
-                        velocidadNaveX=3;
-                        velocidadNaveY=0;
-                    }
-                    
+                    Math.toRadians(giroNave);
+                    direcionNaveX=Math.sin(giroNave);
+                    direcionNaveY=Math.cos(giroNave);
+                    velocidadNaveY+=direcionNaveY;
+                    velocidadNaveX+=direcionNaveX;
                     
                     break;
                 case LEFT:
                     //Cuando pulsamos la tecla abajo
-                    giroNave = giroNave-90;
+                    giroNave = giroNave-5;
                     if(giroNave==-90){
                         giroNave=270;
                         nave.setLayoutY(posicionNaveY);
@@ -163,7 +142,7 @@ public class Asteroids extends Application {
                     break;
                 case RIGHT:
                     //Cuando pulsamos la tecla abajo
-                    giroNave = giroNave+90;
+                    giroNave = giroNave+5;
                     if(giroNave>=360){
                         giroNave=0;
                         nave.setLayoutY(posicionNaveY);
@@ -172,6 +151,37 @@ public class Asteroids extends Application {
                 case SPACE: 
                     velocidadNaveTurboX=5;
                     velocidadNaveTurboY=5;
+                    break;
+                case ENTER:
+                    bala = new Polygon();
+                    bala.getPoints().addAll(new Double[]{
+                        0.0, -2.0,
+                        -3.0, 10.0,
+                        -2.0, 10.0,
+                        -2.0, 15.0,
+                        2.0, 15.0,
+                        2.0, 10.0,
+                        3.0, 10.0,
+                        0.0, -2.0
+                    });
+                    bala.setFill(Color.ORANGE);
+                    bala.getTransforms().add(new Rotate (90,00,0));
+                    bala.setLayoutX(posicionBalaX);
+                    bala.setLayoutY(posicionBalaY);
+                    root.getChildren().add(bala);
+                    if(giroNave==0){
+                        velocidadBalaX+=100;
+                        
+                    }
+                    if(giroNave==90){
+                        velocidadBalaY-=100;
+                    }
+                    if(giroNave==180){
+                        velocidadBalaX-=100;
+                    }
+                    if(giroNave==270){
+                        velocidadBalaY+=100;
+                    }
                     break;
             }
         nave.setRotate(giroNave);
@@ -186,7 +196,14 @@ public class Asteroids extends Application {
         });
          
     }
-    
+    /*static void anguloCal(double giroNave ){
+        //Primer punto, pasa "a" a radianes.
+        Math.sin();
+        double b = Math.toRadians(giroNave);
+        System.out.println("Seno de " + giroNave + " es: " + Math.sin(b) );
+        System.out.println("Coseno de " + giroNave + " es: " + Math.cos(b) );
+        System.out.println("Tangente de " + giroNave + " es: " + Math.tan(b) );
+    }*/
                 
     
     public static void main(String[] args) {
