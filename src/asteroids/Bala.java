@@ -1,6 +1,7 @@
 
 package asteroids;
 
+import java.util.ArrayList;
 import javafx.scene.shape.Polygon;
 
 public class Bala {
@@ -12,7 +13,7 @@ public class Bala {
     private double velocidadBalaY = 0;
     private double giroBala;
     private double giroBalaRadianes;
-    private Polygon bala = new Polygon();
+    Polygon bala = new Polygon();
     
     
     public Bala(){
@@ -27,16 +28,30 @@ public class Bala {
                         0.0, -2.0
         });
     }    
-    public void posicionBala(){
+    public void getBalaX(){
+        posicionBalaX+=velocidadBalaX;
         bala.setLayoutX(posicionBalaX);
+    }
+    public void getBalaY(){
+        posicionBalaY+=velocidadBalaY;
         bala.setLayoutY(posicionBalaY);
     }
-    public void velocidadBala(){
-        posicionBalaX+=velocidadBalaX;
-        posicionBalaY+=velocidadBalaY;
+    public void rotateBala(){
+        bala.setRotate(90);
+    }
+    public void disparoBala(){
         giroBalaRadianes=Math.toRadians(giroBala);
         velocidadBalaX=Math.cos(giroBalaRadianes)*velocidadAbsolutaBala;
         velocidadBalaY=Math.sin(giroBalaRadianes)*velocidadAbsolutaBala;
+    }
+    public void velocidadBalaX(){
+        
+    }
+    public void velocidadBalaY(){
+        
+    }
+    public double velocidadBalaAbsoluta(){
+        return velocidadAbsolutaBala+=5;
     }
     
     

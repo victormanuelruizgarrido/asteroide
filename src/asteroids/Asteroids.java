@@ -1,6 +1,7 @@
 
 package asteroids;
 
+import java.util.ArrayList;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -32,7 +33,14 @@ public class Asteroids extends Application {
         AnimationTimer animacionAsteroide = new AnimationTimer(){
             @Override
             public void handle(long now) {
-            
+                ArrayList<Asteroide> listaAsteroide = new ArrayList();
+                for(int i=0; i<3; i++){
+                    Asteroide asteroide = new Asteroide();
+                    listaAsteroide.add(asteroide);
+                }
+                Asteroide asteroide1 = listaAsteroide.get(1);
+                listaAsteroide.remove(5);
+                
                 if(nave.getNavePosX() <= 0){
                     //Ponemos la barra en la posicion 0 para que no se nos valla
                     nave.setNavePosX();
@@ -60,7 +68,8 @@ public class Asteroids extends Application {
                 }
                 if (getColision(asteroide,bala)){
                         asteroide.asteroideInvisible();
-                } 
+                }
+                root.getChildren().add(nave.mostrarNave());
             }
             
         };
@@ -69,57 +78,39 @@ public class Asteroids extends Application {
         scene.setOnKeyPressed((KeyEvent event)-> {
             switch(event.getCode()){
                 case UP:
-                    velocidadAbsoluta+=velocidadNaveX+2.0;
-                    velocidadAbsoluta+=velocidadNaveY+2.0;
+                    nave.acereraNave();
                     break;
                 case DOWN:
-                    velocidadAbsoluta-=3;
+                    nave.reducirNave();
                      break;       
                 case RIGHT:
                     //Cuando pulsamos la tecla abajo
-                    giroNave +=5;
-                    if(giroNave>=360){
-                        giroNave=0;
-                        nave.setLayoutX(posicionNaveX);
-                        bala.setLayoutX(posicionBalaX);
-                    }
+                    nave.giroNaveDerecha();
+                    nave.getNavePosX();
+                    bala.getBalaX();
                     break;
                 case LEFT:
                     //Cuando pulsamos la tecla abajo
-                    giroNave -=5;
-                    if(giroNave==-90){
-                        giroNave=270;
-                        nave.setLayoutX(posicionNaveX);
-                        bala.setLayoutX(posicionBalaX);
-                    }
+                    nave.giroNaveIzquierda();
+                    nave.cambiaPosicionX();
+                    bala.getBalaX();
                     break;
-                
-                case SPACE: 
-                    velocidadNaveTurboX=5;
-                    velocidadNaveTurboY=5;
-                    break;
-                case ENTER:
-                   
-                    bala.setFill(Color.ORANGE);
-                    root.getChildren().add(bala);
-                    posicionBalaX=posicionNaveX;
-                    posicionBalaY=posicionNaveY;
-                    bala.getTransforms().add(new Rotate (90,00,0));
-                    velocidadAbsolutaBala+=5;
-                    velocidadAbsolutaBala+=5;        
+                case SPACE:
+                    Bala bala = new Bala();
+                    bala.getBalaX();
+                    bala.getBalaY();
+                    bala.rotateBala();
+                    bala.velocidadBalaAbsoluta();
                     break;
                 }
-                nave.setRotate(giroNave);
-                bala.setRotate(giroNave);
+                nave.rotateNave();
+                bala.rotateBala();
                 
         });
         scene.setOnKeyReleased((KeyEvent event) -> {
             switch(event.getCode()){
                 
-                case SPACE:
-                velocidadNaveTurboX=0;
-                velocidadNaveTurboY=0;
-                break;
+                
             }
         });
          
