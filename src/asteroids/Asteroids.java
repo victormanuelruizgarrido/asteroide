@@ -30,46 +30,44 @@ public class Asteroids extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
         scene.getStylesheets().add(getClass().getResource("resource/css/estilos.css").toExternalForm());
+        root.getChildren().add(nave.getGrupoNave());
+        root.getChildren().add(asteroide.mostrarAsteroide());
         AnimationTimer animacionAsteroide = new AnimationTimer(){
             @Override
             public void handle(long now) {
-                ArrayList<Asteroide> listaAsteroide = new ArrayList();
+                /*ArrayList<Asteroide> listaAsteroide = new ArrayList();
                 for(int i=0; i<3; i++){
                     Asteroide asteroide = new Asteroide();
                     listaAsteroide.add(asteroide);
                 }
                 Asteroide asteroide1 = listaAsteroide.get(1);
-                listaAsteroide.remove(5);
+                asteroide1.getPosAsteroide1X();
+                asteroide1.getPosAsteroide1Y();
+                Asteroide asteroide2 = listaAsteroide.get(2);
+                asteroide2.getPosAsteroide2X();
+                asteroide2.getPosAsteroide2Y();
+                Asteroide asteroide3 = listaAsteroide.get(3);
+                asteroide3.getPosAsteroide3X();
+                asteroide3.getPosAsteroide3Y();*/
+                /*listaAsteroide.remove(5);*/
                 
-                if(nave.getNavePosX() <= 0){
-                    //Ponemos la barra en la posicion 0 para que no se nos valla
-                    nave.setNavePosX();
-                }else{
-                    //Para no sobrepasar el vorde inferior
-                    if(nave.getNavePosY()>=anchoPantalla){
-                        nave.setNavePosY();
-                    }
-                }
-                nave.getNavePosY();
                 
-                if(nave.getNavePosX()<=0){
-                    //Ponemos la barra en la posicion 0 para que no se nos valla
-                    nave.setNavePosX();
-                }else{
-                    //Para no sobrepasar el vorde inferior
-                    if(nave.getNavePosX()>=largoPantalla){
-                        nave.setNavePosX();
-                    }
-                }
-                nave.getNavePosX();
                 
-                if(getColision(asteroide, nave)){
+                /*if(getColision(asteroide, nave)){
                     nave.naveInvisible();
                 }
                 if (getColision(asteroide,bala)){
                         asteroide.asteroideInvisible();
-                }
-                root.getChildren().add(nave.mostrarNave());
+                }*/
+                
+                
+                asteroide.getPosAsteroide1X();
+                asteroide.getPosAsteroide1Y();
+                
+                nave.mover();
+                
+                
+                
             }
             
         };
@@ -86,14 +84,10 @@ public class Asteroids extends Application {
                 case RIGHT:
                     //Cuando pulsamos la tecla abajo
                     nave.giroNaveDerecha();
-                    nave.getNavePosX();
-                    bala.getBalaX();
                     break;
                 case LEFT:
                     //Cuando pulsamos la tecla abajo
                     nave.giroNaveIzquierda();
-                    nave.cambiaPosicionX();
-                    bala.getBalaX();
                     break;
                 case SPACE:
                     Bala bala = new Bala();
@@ -101,9 +95,11 @@ public class Asteroids extends Application {
                     bala.getBalaY();
                     bala.rotateBala();
                     bala.velocidadBalaAbsoluta();
+                    bala.getBalaX();
+                    root.getChildren().add(bala.mostrarBala());
                     break;
                 }
-                nave.rotateNave();
+                
                 bala.rotateBala();
                 
         });

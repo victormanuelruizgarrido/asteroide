@@ -10,11 +10,9 @@ import javafx.scene.transform.Rotate;
 public class Nave {
     private double velocidadNaveY = 0;
     private double velocidadNaveX = 0;
-    private double direcionNaveY = 0;
-    private double direcionNaveX = 0;
     private double posicionNaveY =500;
     private double posicionNaveX =400;
-    private double velocidadAbsoluta =1;
+    private double velocidadAbsoluta =0.3;
     private double giroNave;
     private double giroNaveRadianes;
     private int centroNave;
@@ -43,22 +41,40 @@ public class Nave {
         rect2.setFill(Color.BLUE);
         grupoNave.getChildren().addAll(poligono, rect1,rect2);
     }
-    public Group mostrarNave(){
-        return grupoNave;
-    }
-    public double getNavePosX(){
+    
+    public void mover(){
         grupoNave.setLayoutX(posicionNaveX);
+        posicionNaveX+=velocidadNaveX;
+        grupoNave.setLayoutY(posicionNaveY);
+        posicionNaveY+=velocidadNaveY;
+        grupoNave.setRotate(giroNave+90);
+        giroNaveRadianes=Math.toRadians(giroNave); 
+        if(posicionNaveX<=0){
+            //Ponemos la barra en la posicion 0 para que no se nos valla
+            grupoNave.setLayoutX(posicionNaveX=largoPantalla);
+            }else{
+                //Para no sobrepasar el vorde inferior
+                if(posicionNaveX>=largoPantalla){
+                    grupoNave.setLayoutX(posicionNaveX=0);
+                }
+        }
+        if(posicionNaveY <= 0){
+            //Ponemos la barra en la posicion 0 para que no se nos valla
+            grupoNave.setLayoutY(posicionNaveY=anchoPantalla);
+            }else{
+                        //Para no sobrepasar el vorde inferior
+                if(posicionNaveY>=anchoPantalla){
+                    grupoNave.setLayoutY(posicionNaveY=0);
+               }
+        }
+        grupoNave.setLayoutY(posicionNaveY);
+    }
+    
+    public double getNavePosX(){
         return posicionNaveX;
     }
     public double getNavePosY(){
-        grupoNave.setLayoutX(posicionNaveY);
         return posicionNaveY;      
-    }
-    public void cambiaPosicionX(){
-        posicionNaveX+=velocidadNaveX;
-    }
-    public void cambiaPosicionY(){
-        posicionNaveY+=velocidadNaveY;
     }
     public double setNavePosX(){
         posicionNaveX=anchoPantalla;
@@ -70,18 +86,20 @@ public class Nave {
         grupoNave.setLayoutX(posicionNaveY);
         return posicionNaveY;      
     }
-    public void rotateNave(){
-        grupoNave.setRotate(90);       
-    }
+    
     public void naveInvisible(){
         grupoNave.setVisible(false);
     }
     public void acereraNave(){
+        posicionNaveX+=velocidadNaveX;
+        posicionNaveY+=velocidadNaveY;
         giroNaveRadianes=Math.toRadians(giroNave);
         velocidadNaveX+=Math.cos(giroNaveRadianes)*velocidadAbsoluta;
         velocidadNaveY+=Math.sin(giroNaveRadianes)*velocidadAbsoluta;
     }
     public void reducirNave(){
+        posicionNaveX+=velocidadNaveX;
+        posicionNaveY+=velocidadNaveY;
         giroNaveRadianes=Math.toRadians(giroNave);
         velocidadNaveX-=Math.cos(giroNaveRadianes)*velocidadAbsoluta;
         velocidadNaveY-=Math.sin(giroNaveRadianes)*velocidadAbsoluta;
@@ -100,12 +118,13 @@ public class Nave {
     public double getVelocidadNaveY(){
        return velocidadNaveX;
     }
-    public double incrementarVelocidadNaveX(){
-       return velocidadNaveX+2;
+  
+    public Group getGrupoNave(){
+        return grupoNave;
     }
-    public double incrementarVelocidadNaveY(){
-       return velocidadNaveY+2;
-    }
+    
+                
+                
     
     
 }

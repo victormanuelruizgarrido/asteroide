@@ -14,7 +14,7 @@ public class Bala {
     private double giroBala;
     private double giroBalaRadianes;
     Polygon bala = new Polygon();
-    
+    Nave nave = new Nave();
     
     public Bala(){
         bala.getPoints().addAll(new Double[]{
@@ -30,28 +30,27 @@ public class Bala {
     }    
     public void getBalaX(){
         posicionBalaX+=velocidadBalaX;
-        bala.setLayoutX(posicionBalaX);
+        bala.setLayoutX(nave.getNavePosX());
     }
     public void getBalaY(){
         posicionBalaY+=velocidadBalaY;
-        bala.setLayoutY(posicionBalaY);
+        bala.setLayoutY(nave.getNavePosY());
     }
     public void rotateBala(){
         bala.setRotate(90);
     }
     public void disparoBala(){
+        posicionBalaX+=velocidadBalaX;
+        posicionBalaY+=velocidadBalaY;
         giroBalaRadianes=Math.toRadians(giroBala);
         velocidadBalaX=Math.cos(giroBalaRadianes)*velocidadAbsolutaBala;
         velocidadBalaY=Math.sin(giroBalaRadianes)*velocidadAbsolutaBala;
     }
-    public void velocidadBalaX(){
-        
-    }
-    public void velocidadBalaY(){
-        
-    }
     public double velocidadBalaAbsoluta(){
         return velocidadAbsolutaBala+=5;
+    }
+    public Polygon mostrarBala(){
+        return bala;
     }
     
     
