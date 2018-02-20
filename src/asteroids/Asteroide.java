@@ -9,10 +9,10 @@ public class Asteroide {
     private Polygon asteroide = new Polygon();
     private double posAsteroide1X=300;
     private double posAsteroide1Y=100;
-    private double posAsteroide2X=300;
-    private double posAsteroide2Y=100;
-    private double posAsteroide3X=300;
-    private double posAsteroide3Y=100;
+    private double posAsteroide2X=600;
+    private double posAsteroide2Y=200;
+    private double posAsteroide3X=500;
+    private double posAsteroide3Y=300;
     public Asteroide(){
         asteroide.getPoints().addAll(new Double[]{
             0.0, -20.0,

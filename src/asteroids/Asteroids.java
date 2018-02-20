@@ -7,17 +7,15 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Shape;
-import javafx.scene.transform.Rotate;
 import javafx.stage.Stage;
 
 public class Asteroids extends Application {
     
     Nave nave = new Nave();
     Asteroide asteroide = new Asteroide();
-    Bala bala = new Bala();
+    Bala bala;
     double giroBalaRadianes;
     int velocidadGiro = 0;
     final int anchoPantalla = 600;
@@ -35,10 +33,14 @@ public class Asteroids extends Application {
         AnimationTimer animacionAsteroide = new AnimationTimer(){
             @Override
             public void handle(long now) {
-                /*ArrayList<Asteroide> listaAsteroide = new ArrayList();
+                ArrayList<Asteroide> listaAsteroide = new ArrayList();
                 for(int i=0; i<3; i++){
-                    Asteroide asteroide = new Asteroide();
-                    listaAsteroide.add(asteroide);
+                    Asteroide asteroide1 = new Asteroide();
+                    listaAsteroide.add(asteroide1);
+                    Asteroide asteroide2 = new Asteroide();
+                    listaAsteroide.add(asteroide2);
+                    Asteroide asteroide3 = new Asteroide();
+                    listaAsteroide.add(asteroide3);
                 }
                 Asteroide asteroide1 = listaAsteroide.get(1);
                 asteroide1.getPosAsteroide1X();
@@ -48,7 +50,7 @@ public class Asteroids extends Application {
                 asteroide2.getPosAsteroide2Y();
                 Asteroide asteroide3 = listaAsteroide.get(3);
                 asteroide3.getPosAsteroide3X();
-                asteroide3.getPosAsteroide3Y();*/
+                asteroide3.getPosAsteroide3Y();
                 /*listaAsteroide.remove(5);*/
                 
                 
@@ -60,9 +62,11 @@ public class Asteroids extends Application {
                         asteroide.asteroideInvisible();
                 }*/
                 
+              
                 
-                asteroide.getPosAsteroide1X();
-                asteroide.getPosAsteroide1Y();
+                if(bala!=null){
+                    bala.moverBala();
+                }
                 
                 nave.mover();
                 
@@ -85,22 +89,18 @@ public class Asteroids extends Application {
                     //Cuando pulsamos la tecla abajo
                     nave.giroNaveDerecha();
                     break;
+                    
                 case LEFT:
                     //Cuando pulsamos la tecla abajo
                     nave.giroNaveIzquierda();
                     break;
                 case SPACE:
-                    Bala bala = new Bala();
-                    bala.getBalaX();
-                    bala.getBalaY();
-                    bala.rotateBala();
-                    bala.velocidadBalaAbsoluta();
-                    bala.getBalaX();
+                    bala = new Bala(nave.getNavePosX(),nave.getNavePosY(),nave.giroNave());
+                    bala.dispararBala();
                     root.getChildren().add(bala.mostrarBala());
                     break;
                 }
                 
-                bala.rotateBala();
                 
         });
         scene.setOnKeyReleased((KeyEvent event) -> {

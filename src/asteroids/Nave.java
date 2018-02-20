@@ -5,7 +5,6 @@ import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.transform.Rotate;
 
 public class Nave {
     private double velocidadNaveY = 0;
@@ -104,13 +103,23 @@ public class Nave {
         velocidadNaveX-=Math.cos(giroNaveRadianes)*velocidadAbsoluta;
         velocidadNaveY-=Math.sin(giroNaveRadianes)*velocidadAbsoluta;
     }
-    public void giroNaveDerecha(){
+    public double giroNave(){
+        return giroNave;
+    }
+    public double giroNaveRadianes(){
+        return giroNaveRadianes;
+    }
+    public double giroNaveDerecha(){
         giroNave+=5;
         giroNave=giroNave%360;
+        return giroNave;
     }
-    public void giroNaveIzquierda(){
+    
+    public double giroNaveIzquierda(){
         giroNave-=5;
         giroNave=giroNave%360;
+        return giroNave;
+        
     }
     public double getVelocidadNaveX(){
        return velocidadNaveX;
