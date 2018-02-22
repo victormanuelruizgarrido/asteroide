@@ -7,12 +7,11 @@ import javafx.scene.shape.Polygon;
 public class Asteroide {
     
     private Polygon asteroide = new Polygon();
-    private double posAsteroide1X=300;
-    private double posAsteroide1Y=100;
-    private double posAsteroide2X=600;
-    private double posAsteroide2Y=200;
-    private double posAsteroide3X=500;
-    private double posAsteroide3Y=300;
+    private double posAsteroideX=50;
+    private double posAsteroideY=50;
+    private int anchoPantalla = 600;
+    private int largoPantalla = 800;
+    
     public Asteroide(){
         asteroide.getPoints().addAll(new Double[]{
             0.0, -20.0,
@@ -22,24 +21,22 @@ public class Asteroide {
             20.0, 0.0 
         });
         asteroide.setFill(Color.BROWN);
+        asteroide.setLayoutX(posAsteroideX);
+        asteroide.setLayoutX(posAsteroideY);
     }
-    public void getPosAsteroide1X(){
-        asteroide.setLayoutX(posAsteroide1X);
+    public double getPosAsterX(){
+        return posAsteroideX;
     }
-    public void getPosAsteroide1Y(){
-        asteroide.setLayoutX(posAsteroide1Y);
+    public double getPosAsterY(){
+        return posAsteroideY;
     }
-    public void getPosAsteroide2X(){
-        asteroide.setLayoutX(posAsteroide2X);
+    public double posAsteroideX(){
+        posAsteroideX = largoPantalla*0.2;
+        return posAsteroideX;
     }
-    public void getPosAsteroide2Y(){
-        asteroide.setLayoutX(posAsteroide2Y);
-    }
-    public void getPosAsteroide3X(){
-        asteroide.setLayoutX(posAsteroide3X);
-    }
-    public void getPosAsteroide3Y(){
-        asteroide.setLayoutX(posAsteroide3Y);
+    public double posAsteroideY(){
+        posAsteroideY=largoPantalla*0.2;
+        return posAsteroideY;
     }
     public void asteroideInvisible(){
         asteroide.setVisible(false);
