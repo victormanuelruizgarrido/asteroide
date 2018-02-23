@@ -2,7 +2,9 @@
 package asteroids;
 
 import java.util.ArrayList;
+import java.util.Random;
 import javafx.animation.AnimationTimer;
+import javafx.animation.TranslateTransition;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
@@ -14,13 +16,14 @@ import javafx.stage.Stage;
 public class Asteroids extends Application {
     
     Nave nave = new Nave();
-    Asteroide asteroide;
     ArrayList<Asteroide> listaAsteroide = new ArrayList();
     Bala bala1;
     double giroBalaRadianes;
     int velocidadGiro;
     final int anchoPantalla = 600;
     final int largoPantalla = 800;
+    double posicionAstX;
+    double posicionAstY;
     ArrayList <Bala> listaBalas = new ArrayList();
     
     
@@ -33,16 +36,22 @@ public class Asteroids extends Application {
         primaryStage.show();
         scene.getStylesheets().add(getClass().getResource("resource/css/estilos.css").toExternalForm());
         root.getChildren().add(nave.getGrupoNave());
+        Random posAst = new Random();
+        for(int i=0; i<3; i++){
+                    Asteroide asteroide = new Asteroide( posicionAstX, posicionAstY);
+                    listaAsteroide.add(asteroide);
+                    posicionAstX=posAst.nextInt(largoPantalla);
+                    posicionAstY=posAst.nextInt(anchoPantalla);
+                    //asteroide.posAsteroideX() = posAstX.nextInt(largoPantalla>0.2*largoPantalla);
+                    root.getChildren().add(asteroide.mostrarAsteroide());
+                    
+                }
         
         AnimationTimer animacionAsteroide = new AnimationTimer(){
             @Override
             public void handle(long now) {
                 
-                for(int i=0; i<3; i++){
-                    Asteroide asteroide1 = new Asteroide();
-                    listaAsteroide.add(asteroide1);
-                    root.getChildren().add(asteroide1.mostrarAsteroide());
-                }
+                
                 /*Asteroide asteroide1 = listaAsteroide.get(1);
                 asteroide1.getPosAsteroide1X();
                 asteroide1.getPosAsteroide1Y();
@@ -63,10 +72,13 @@ public class Asteroids extends Application {
                 /*if(bala!=null){
                         bala.moverBala();
                     }*/
+                for(int i=0; i<listaAsteroide.size(); i++){
+                    Asteroide asteroide= listaAsteroide.get(i);
+                    asteroide.moverAsteroide();
+                }
                 for(int i=0; i<listaBalas.size(); i++){
                     Bala bala1= listaBalas.get(i);
                     bala1.moverBala();
-                    System.out.println(listaBalas.size());
                 }
                 
                 nave.mover();
