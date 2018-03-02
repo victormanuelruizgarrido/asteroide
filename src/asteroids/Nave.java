@@ -19,54 +19,58 @@ public class Nave {
     private int anchoPantalla = 600;
     private int largoPantalla = 800;
     Group grupoNave;
-    
+    Polygon poligono;
+    Rectangle rect2;
+    Rectangle rect1;
     
     public Nave(){
         grupoNave = new Group();
-        Polygon poligono = new Polygon();
+        poligono = new Polygon();
         poligono.getPoints().addAll(new Double[]{
             0.0, -20.0,
             -15.0, 20.0,
             15.0, 20.0 
         });
         poligono.setFill(Color.BLUE);
-        Rectangle rect1 = new Rectangle(7, 5);
-        Rectangle rect2 = new Rectangle(7, 5);
-        rect1.setLayoutX(-13);
-        rect2.setLayoutX(6);
-        rect1.setLayoutY(20);
-        rect2.setLayoutY(20);
+        rect1 = new Rectangle(7, 5);
+        rect2 = new Rectangle(7, 5);
+        rect1.setTranslateX(-13);
+        rect2.setTranslateX(6);
+        rect1.setTranslateY(20);
+        rect2.setTranslateY(20);
         rect1.setFill(Color.BLUE);
         rect2.setFill(Color.BLUE);
         grupoNave.getChildren().addAll(poligono, rect1,rect2);
+        grupoNave.setTranslateX(posicionNaveX);
+        grupoNave.setTranslateY(posicionNaveY);
     }
     
     public void mover(){
-        grupoNave.setLayoutX(posicionNaveX);
+        grupoNave.setTranslateX(posicionNaveX);
+        grupoNave.setTranslateY(posicionNaveY);
         posicionNaveX+=velocidadNaveX;
-        grupoNave.setLayoutY(posicionNaveY);
         posicionNaveY+=velocidadNaveY;
         grupoNave.setRotate(giroNave+90);
         giroNaveRadianes=Math.toRadians(giroNave); 
         if(posicionNaveX<=0){
             //Ponemos la barra en la posicion 0 para que no se nos valla
-            grupoNave.setLayoutX(posicionNaveX=largoPantalla);
+            grupoNave.setTranslateX(posicionNaveX=largoPantalla);
             }else{
                 //Para no sobrepasar el vorde inferior
                 if(posicionNaveX>=largoPantalla){
-                    grupoNave.setLayoutX(posicionNaveX=0);
+                    grupoNave.setTranslateX(posicionNaveX=0);
                 }
         }
         if(posicionNaveY <= 0){
             //Ponemos la barra en la posicion 0 para que no se nos valla
-            grupoNave.setLayoutY(posicionNaveY=anchoPantalla);
+            grupoNave.setTranslateY(posicionNaveY=anchoPantalla);
             }else{
                         //Para no sobrepasar el vorde inferior
                 if(posicionNaveY>=anchoPantalla){
-                    grupoNave.setLayoutY(posicionNaveY=0);
+                    grupoNave.setTranslateY(posicionNaveY=0);
                }
         }
-        grupoNave.setLayoutY(posicionNaveY);
+        grupoNave.setTranslateY(posicionNaveY);
     }
     
     public double getNavePosX(){
@@ -77,17 +81,19 @@ public class Nave {
     }
     public double setNavePosX(){
         posicionNaveX=anchoPantalla;
-        grupoNave.setLayoutX(posicionNaveX);
+        grupoNave.setTranslateX(posicionNaveX);
         return posicionNaveX;
     }
     public double setNavePosY(){
         posicionNaveY=largoPantalla;
-        grupoNave.setLayoutX(posicionNaveY);
+        grupoNave.setTranslateY(posicionNaveY);
         return posicionNaveY;      
     }
     
     public void naveInvisible(){
-        grupoNave.setVisible(false);
+        poligono.setVisible(false);
+        rect1.setVisible(false);
+        rect2.setVisible(false);
     }
     public void acereraNave(){
         posicionNaveX+=velocidadNaveX;
@@ -130,6 +136,9 @@ public class Nave {
   
     public Group getGrupoNave(){
         return grupoNave;
+    }
+    public Polygon getPolNave(){
+        return poligono;
     }
     
                 

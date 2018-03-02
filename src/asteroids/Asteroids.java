@@ -25,7 +25,7 @@ public class Asteroids extends Application {
     double posicionAstX;
     double posicionAstY;
     ArrayList <Bala> listaBalas = new ArrayList();
-    
+    Asteroide asteroide;
     
     @Override
     public void start(Stage primaryStage) {
@@ -38,7 +38,7 @@ public class Asteroids extends Application {
         root.getChildren().add(nave.getGrupoNave());
         Random posAst = new Random();
         for(int i=0; i<3; i++){
-                    Asteroide asteroide = new Asteroide( posicionAstX, posicionAstY);
+                    asteroide = new Asteroide( posicionAstX, posicionAstY);
                     listaAsteroide.add(asteroide);
                     posicionAstX=posAst.nextInt(largoPantalla);
                     posicionAstY=posAst.nextInt(anchoPantalla);
@@ -63,22 +63,31 @@ public class Asteroids extends Application {
                 asteroide3.getPosAsteroide3Y();
                 /*listaAsteroide.remove(5);*/
                 
-                /*if(getColision(asteroide, nave)){
-                    nave.naveInvisible();
-                }
-                if (getColision(asteroide,bala)){
-                        asteroide.asteroideInvisible();
-                }*/
+                
                 /*if(bala!=null){
                         bala.moverBala();
                     }*/
                 for(int i=0; i<listaAsteroide.size(); i++){
-                    Asteroide asteroide= listaAsteroide.get(i);
+                    asteroide = listaAsteroide.get(i);
                     asteroide.moverAsteroide();
                 }
                 for(int i=0; i<listaBalas.size(); i++){
                     Bala bala1= listaBalas.get(i);
                     bala1.moverBala();
+                }
+                for(int i=0; i<listaAsteroide.size(); i++){
+                    if(getColision(asteroide.mostrarAsteroide(), nave.getPolNave())){
+                        nave.naveInvisible();
+                    }
+                }
+                for(int i=0; i<listaBalas.size(); i++){
+                    for(int e=0; e<listaAsteroide.size(); e++){
+                        asteroide=listaAsteroide.get(e);
+                        if (getColision(asteroide.mostrarAsteroide(),bala1.mostrarBala())){
+                            listaAsteroide.remove(e);
+                                System.out.println("Colision acertada");
+                        }
+                    }
                 }
                 
                 nave.mover();
@@ -105,11 +114,10 @@ public class Asteroids extends Application {
                     nave.giroNaveIzquierda();
                     break;
                 case SPACE:
-                    Bala bala1 = new Bala(nave.getNavePosX(),nave.getNavePosY(),nave.giroNave());
+                    bala1 = new Bala(nave.getNavePosX(),nave.getNavePosY(),nave.giroNave());
                     listaBalas.add(bala1);
                     bala1.dispararBala();
                     root.getChildren().add(bala1.mostrarBala());
-                    
                     break;
                 }
                 
