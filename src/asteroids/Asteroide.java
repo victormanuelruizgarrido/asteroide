@@ -29,7 +29,7 @@ public class Asteroide {
         
         velAsteroideY=velAst.nextDouble();
         dibujoAsteroide.setLayoutX(posAsteroideX);
-        dibujoAsteroide.setLayoutX(posAsteroideY);
+        dibujoAsteroide.setLayoutY(posAsteroideY);
         
     }
     public void moverAsteroide(){

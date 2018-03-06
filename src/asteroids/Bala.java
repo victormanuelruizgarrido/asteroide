@@ -60,6 +60,9 @@ public class Bala {
         bala.setLayoutY(posicionBalaY);
         posicionBalaY+=velocidadBalaY;
     }
+    public void balaInvisible(){
+        bala.setVisible(false);
+    }
     public Polygon mostrarBala(){
         return bala;
     }
