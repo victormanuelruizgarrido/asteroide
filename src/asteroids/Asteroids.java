@@ -25,8 +25,10 @@ public class Asteroids extends Application {
     Nave nave = new Nave();
     ArrayList<Asteroide> listaAsteroide = new ArrayList();
     Bala bala1;
-    Text finPartida = new Text("Fin del juego.");
+    Text finPartida = new Text("Fin del juego as derrotado al numero total de asteroides.");
+    
     boolean finPar = false; 
+    boolean finPar2 = false; 
     double giroBalaRadianes;
     int velocidadGiro;
     final int anchoPantalla = 600;
@@ -54,9 +56,9 @@ public class Asteroids extends Application {
         for(int i=0; i<3; i++){
                     asteroide = new Asteroide( posicionAstX, posicionAstY);
                     listaAsteroide.add(asteroide);
-                    posicionAstX=posAst.nextInt(largoPantalla);
-                    posicionAstY=posAst.nextInt(anchoPantalla);
-                    //asteroide.posAsteroideX() = posAstX.nextInt(largoPantalla>0.2*largoPantalla);
+                    asteroide.posAsteroideX=posAst.nextInt(largoPantalla);
+                    asteroide.posAsteroideY=posAst.nextInt(anchoPantalla);
+                    //asteroide.posAsteroideX = posAst.nextInt(largoPantalla>0.2*largoPantalla);
                     root.getChildren().add(asteroide.mostrarAsteroide());
                     
                 }
@@ -102,25 +104,24 @@ public class Asteroids extends Application {
             @Override
             public void handle(long now) {
                 if(finPar==true){
-                    finPartida.setLayoutX(300);
+                    finPartida.setLayoutX(250);
                     finPartida.setLayoutY(250);
                     asteroide.asteroideInvisible();
                     bala1.balaInvisible();
                     nave.naveInvisible();
+                    finPartida.setFill(Color.BLUE);
+                    finPartida.setFont(Font.font(TEXT_SIZE));
                     this.stop();
                     root.getChildren().add(finPartida);
                 }
-
-                /*Asteroide asteroide1 = listaAsteroide.get(1);
-                asteroide1.getPosAsteroide1X();
-                asteroide1.getPosAsteroide1Y();
-                Asteroide asteroide2 = listaAsteroide.get(2);
-                asteroide2.getPosAsteroide2X();
-                asteroide2.getPosAsteroide2Y();
-                Asteroide asteroide3 = listaAsteroide.get(3);
-                asteroide3.getPosAsteroide3X();
-                asteroide3.getPosAsteroide3Y();
-                /*listaAsteroide.remove(5);*/
+                if(finPar2==true){
+                    finPartida.setLayoutX(300);
+                    finPartida.setLayoutY(250);
+                    asteroide.asteroideInvisible();
+                    nave.naveInvisible();
+                    this.stop();
+                    root.getChildren().add(finPartida);
+                }
                 
                 
                 for(int i=0; i<listaAsteroide.size(); i++){
@@ -131,14 +132,21 @@ public class Asteroids extends Application {
                     Bala bala1= listaBalas.get(i);
                     bala1.moverBala();
                 }
+                boolean asteroideInv=false;
                 for(int i=0; i<listaAsteroide.size(); i++){
                     asteroide=listaAsteroide.get(i);
                     if(getColision(asteroide.mostrarAsteroide(), nave.getPolNave())){
                         nave.naveInvisible();
-                        
+                        asteroideInv=true;
                     }
                 }
-                
+                if(asteroideInv==true){
+                    for(int i=0; i<listaAsteroide.size(); i++){
+                        listaAsteroide.get(i).asteroideInvisible();
+                    }
+                    listaAsteroide.removeAll(listaAsteroide);
+                    finPar2=true;
+                }; 
                 
                 for(int i=0; i<listaBalas.size(); i++){
                     bala1=listaBalas.get(i);
@@ -149,18 +157,34 @@ public class Asteroids extends Application {
                             balaEliminar.balaInvisible();
                             asteroideEliminar=asteroide;
                             asteroideEliminar.asteroideInvisible();
-                            
                             score++;
                             textScore.setText(String.valueOf(score));
                             System.out.println("Colision acertada");
                         }
                     }
+                    listaAsteroide.remove(asteroideEliminar);
+                    if(listaAsteroide.isEmpty()){
+                        finPar=true;
+                    }
                 }
                 listaBalas.remove(balaEliminar);
-                
-                listaAsteroide.remove(asteroideEliminar);
-                if(listaAsteroide.isEmpty()){
-                    finPar=true;
+                for(int i=0; i<listaAsteroide.size(); i++){
+                    asteroide=listaAsteroide.get(i);
+                    if(asteroide.posAsteroideX<=0){
+                        asteroide.mostrarAsteroide().setTranslateX(largoPantalla);
+                        }else{
+                            if(asteroide.posAsteroideX>=largoPantalla){
+                                asteroide.mostrarAsteroide().setTranslateX(0);
+                            }
+                    }
+                    if(asteroide.posAsteroideY <=0){
+                        asteroide.mostrarAsteroide().setTranslateY(anchoPantalla);
+                        }else{
+                                    //Para no sobrepasar el vorde inferior
+                            if(asteroide.posAsteroideY>=anchoPantalla){
+                                asteroide.mostrarAsteroide().setTranslateY(0);
+                           }
+                    }
                 }
                 nave.mover();
             }
