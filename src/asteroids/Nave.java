@@ -14,6 +14,7 @@ public class Nave {
     private double velocidadAbsoluta =0.3;
     private double giroNave;
     private double giroNaveRadianes;
+    private double velocidadGiro;
     private int centroNave;
     private int anchoNave = 15;
     private int anchoPantalla = 600;
@@ -51,6 +52,7 @@ public class Nave {
         posicionNaveX+=velocidadNaveX;
         posicionNaveY+=velocidadNaveY;
         grupoNave.setRotate(giroNave+90);
+        giroNave+=velocidadGiro;
         giroNaveRadianes=Math.toRadians(giroNave); 
         if(posicionNaveX<=0){
             //Ponemos la barra en la posicion 0 para que no se nos valla
@@ -115,17 +117,19 @@ public class Nave {
     public double giroNaveRadianes(){
         return giroNaveRadianes;
     }
-    public double giroNaveDerecha(){
-        giroNave+=5;
+    public void giroNaveDerecha(){
+        velocidadGiro=5;
+        giroNave+=velocidadGiro;
         giroNave=giroNave%360;
-        return giroNave;
     }
     
-    public double giroNaveIzquierda(){
-        giroNave-=5;
+    public void giroNaveIzquierda(){
+        velocidadGiro=-5;
+        giroNave-=velocidadGiro;
         giroNave=giroNave%360;
-        return giroNave;
-        
+    }
+    public void ponerVelGiro0(){
+        velocidadGiro=0;
     }
     public double getVelocidadNaveX(){
        return velocidadNaveX;

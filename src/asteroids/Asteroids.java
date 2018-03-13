@@ -170,21 +170,7 @@ public class Asteroids extends Application {
                 listaBalas.remove(balaEliminar);
                 for(int i=0; i<listaAsteroide.size(); i++){
                     asteroide=listaAsteroide.get(i);
-                    if(asteroide.posAsteroideX<=0){
-                        asteroide.mostrarAsteroide().setTranslateX(largoPantalla);
-                        }else{
-                            if(asteroide.posAsteroideX>=largoPantalla){
-                                asteroide.mostrarAsteroide().setTranslateX(0);
-                            }
-                    }
-                    if(asteroide.posAsteroideY <=0){
-                        asteroide.mostrarAsteroide().setTranslateY(anchoPantalla);
-                        }else{
-                                    //Para no sobrepasar el vorde inferior
-                            if(asteroide.posAsteroideY>=anchoPantalla){
-                                asteroide.mostrarAsteroide().setTranslateY(0);
-                           }
-                    }
+                    asteroide.checkearBordes();
                 }
                 nave.mover();
             }
@@ -203,8 +189,7 @@ public class Asteroids extends Application {
                 case RIGHT:
                     //Cuando pulsamos la tecla abajo
                     nave.giroNaveDerecha();
-                    break;
-                    
+                    break;                    
                 case LEFT:
                     //Cuando pulsamos la tecla abajo
                     nave.giroNaveIzquierda();
@@ -215,12 +200,22 @@ public class Asteroids extends Application {
                     bala1.dispararBala();
                     root.getChildren().add(bala1.mostrarBala());
                     break;
+                
                 }
+            
+            
                 
         });
         scene.setOnKeyReleased((KeyEvent event) -> {
             switch(event.getCode()){
-                
+                case LEFT:
+                    //Cuando pulsamos la tecla abajo
+                    nave.ponerVelGiro0();
+                    break;
+                case RIGHT:
+                    //Cuando pulsamos la tecla abajo
+                    nave.ponerVelGiro0();
+                    break; 
             }
         });
          
