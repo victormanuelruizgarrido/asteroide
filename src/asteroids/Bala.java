@@ -60,6 +60,12 @@ public class Bala {
         bala.setLayoutY(posicionBalaY);
         posicionBalaY+=velocidadBalaY;
     }
+    public double getPosBalaX(){
+        return posicionBalaX;
+    }
+    public double getPosBalaY(){
+        return posicionBalaY;
+    }
     public void balaInvisible(){
         bala.setVisible(false);
     }

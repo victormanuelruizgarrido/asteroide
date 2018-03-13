@@ -1,13 +1,10 @@
 
 package asteroids;
 
-import java.awt.Label;
 import java.util.ArrayList;
 import java.util.Random;
 import javafx.animation.AnimationTimer;
-import javafx.animation.TranslateTransition;
 import javafx.application.Application;
-import javafx.event.EventType;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
@@ -131,6 +128,20 @@ public class Asteroids extends Application {
                 for(int i=0; i<listaBalas.size(); i++){
                     Bala bala1= listaBalas.get(i);
                     bala1.moverBala();
+                }
+                for(int i=0; i<listaBalas.size(); i++){
+                    bala1= listaBalas.get(i);
+                    if(bala1.getPosBalaX()>largoPantalla || bala1.getPosBalaX()<0){
+                        bala1.balaInvisible();
+                        listaBalas.remove(bala1);
+                    }
+                }
+                for(int i=0; i<listaBalas.size(); i++){
+                    bala1= listaBalas.get(i);
+                    if(bala1.getPosBalaY()>anchoPantalla || bala1.getPosBalaX()<0){
+                        bala1.balaInvisible();
+                        listaBalas.remove(bala1);
+                    }
                 }
                 boolean asteroideInv=false;
                 for(int i=0; i<listaAsteroide.size(); i++){
